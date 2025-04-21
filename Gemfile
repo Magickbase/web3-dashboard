@@ -33,7 +33,21 @@ gem "thruster", require: false
 # gem "image_processing", "~> 1.2"
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
-# gem "rack-cors"
+gem "rack-cors"
+
+# API
+gem "grape"
+gem "jsonapi-serializer"
+
+# Payment
+gem "stripe"
+
+# Load environment variables from `.env`
+gem "dotenv-rails"
+
+# Admin Dashboard
+gem "activeadmin"
+gem "devise"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

@@ -18,11 +18,10 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
+  url: <%= ENV["DATABASE_URL"] %>
 
 development:
   <<: *default
-  database: web3_dashboard_development
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -81,9 +80,6 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: web3_dashboard_production
-    username: web3_dashboard
-    password: <%= ENV["WEB3_DASHBOARD_DATABASE_PASSWORD"] %>
   cache:
     <<: *primary_production
     database: web3_dashboard_production_cache
