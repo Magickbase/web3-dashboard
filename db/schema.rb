@@ -15,6 +15,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_022545) do
   enable_extension "pg_catalog.plpgsql"
 
   create_table "stripe_checkout_sessions", force: :cascade do |t|
+    t.integer "user_id", null: false
     t.string "session_id", null: false
     t.decimal "amount_subtotal", precision: 30
     t.decimal "amount_total", precision: 30
@@ -25,6 +26,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_022545) do
     t.integer "expires_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_stripe_checkout_sessions_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

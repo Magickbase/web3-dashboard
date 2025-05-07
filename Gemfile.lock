@@ -85,9 +85,6 @@ GEM
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
-    annotate (2.6.5)
-      activerecord (>= 2.3.0)
-      rake (>= 0.8.7)
     arbre (1.7.0)
       activesupport (>= 3.0.0)
       ruby2_keywords (>= 0.0.2)
@@ -384,7 +381,6 @@ PLATFORMS
 DEPENDENCIES
   active_interaction (~> 5.5)
   activeadmin
-  annotate
   bootsnap
   brakeman
   debug

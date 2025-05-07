@@ -15,10 +15,11 @@ module CheckoutSessions
         created: data.created,
         expires_at: data.expires_at,
         url: data.url,
+        user_id: 1, # TODO: fix me
       )
       StripeCheckoutSessionSerializer.new(session).serializable_hash.to_json
     rescue Stripe::StripeError => e
-      raise StripRequestError.new(e.message)
+      raise StripeRequestError.new(e.message)
     rescue ActiveRecord::RecordInvalid, ArgumentError => e
       puts e.message
     end

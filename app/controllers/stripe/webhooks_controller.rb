@@ -13,17 +13,12 @@ module Stripe
 
       case event.type
       when "checkout.session.completed"
-        session_id = event.data.object.id
-        session =
+        obj = event.data.object
+        session = StripeCheckoutSession.find_by(session_id: obj.id)
+        return unless session
+
+        session.update!(status: "completed", customer: obj.customer)
       end
-
-      # https://docs.stripe.com/webhooks?snapshot-or-thin=snapshot
-    end
-
-    private
-
-    def find_checkout_session(session_id)
-      StripeCheckout
     end
   end
 end

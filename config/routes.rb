@@ -8,7 +8,9 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   namespace :stripe do
-    resources :checkout_sessions, only: [:create]
+    resources :checkout_sessions, param: :session_id, only: %i[index create] do
+      post :expire, on: :member
+    end
     resources :webhooks do
       post :callback, on: :collection
     end
