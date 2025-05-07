@@ -36,7 +36,6 @@ gem "thruster", require: false
 gem "rack-cors"
 
 # API
-gem "grape"
 gem "jsonapi-serializer"
 
 # Payment
@@ -58,4 +57,12 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  gem "annotate"
+  gem "rubocop", require: false
+  gem "rubocop-performance", require: false
+  gem "rubocop-rails", require: false
 end
+
+
+gem "active_interaction", "~> 5.5"

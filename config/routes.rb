@@ -7,4 +7,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  namespace :stripe do
+    resources :checkout_sessions, only: [:create]
+    resources :webhooks do
+      post :callback, on: :collection
+    end
+  end
 end
