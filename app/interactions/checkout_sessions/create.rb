@@ -2,6 +2,7 @@ module CheckoutSessions
   class Create < ActiveInteraction::Base
     string :price
     string :success_url, default: "https://example.com/success"
+    string :cancel_url, default: nil
     integer :quantity
     string :mode, default: "subscription"
     string :customer_email, default: nil
@@ -29,6 +30,7 @@ module CheckoutSessions
     def payload
       req = { line_items: [{ price:, quantity: }], success_url:, mode: }
       req[:customer_email] = customer_email if customer_email
+      req[:metadata] = { user_id: "1" }
       req
     end
   end

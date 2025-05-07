@@ -10,23 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_07_022545) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_07_084046) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "stripe_checkout_sessions", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.string "session_id", null: false
+    t.string "session_uid"
     t.decimal "amount_subtotal", precision: 30
     t.decimal "amount_total", precision: 30
-    t.text "url"
-    t.string "state", default: "pending"
-    t.string "customer"
+    t.string "status", default: "open"
+    t.string "customer_uid"
     t.integer "created"
     t.integer "expires_at"
+    t.text "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_stripe_checkout_sessions_on_user_id"
+  end
+
+  create_table "stripe_subscriptions", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "subscription_uid"
+    t.string "price_uid"
+    t.integer "current_period_start"
+    t.integer "current_period_end"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

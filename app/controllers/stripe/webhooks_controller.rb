@@ -17,7 +17,7 @@ module Stripe
         session = StripeCheckoutSession.find_by(session_id: obj.id)
         return unless session
 
-        session.update!(status: "completed", customer: obj.customer)
+        session.update!(state: "completed", customer: obj.customer)
       end
     end
   end

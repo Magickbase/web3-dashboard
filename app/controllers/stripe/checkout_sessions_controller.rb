@@ -5,8 +5,7 @@ module Stripe
     end
 
     def create
-      json = CheckoutSessions::Create.run!(checkout_session_params)
-      render json:
+      render json: CheckoutSessions::Create.run!(checkout_session_params)
     end
 
     def expire
