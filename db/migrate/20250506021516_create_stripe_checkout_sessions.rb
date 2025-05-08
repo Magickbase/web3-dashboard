@@ -5,7 +5,7 @@ class CreateStripeCheckoutSessions < ActiveRecord::Migration[8.0]
       t.string :session_uid
       t.decimal :amount_subtotal, precision: 30
       t.decimal :amount_total, precision: 30
-      t.string :status, default: "open"
+      t.integer :status, default: 0
       t.string :customer_uid
       t.integer :created
       t.integer :expires_at

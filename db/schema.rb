@@ -19,7 +19,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_084046) do
     t.string "session_uid"
     t.decimal "amount_subtotal", precision: 30
     t.decimal "amount_total", precision: 30
-    t.string "status", default: "open"
+    t.integer "status", default: 0
     t.string "customer_uid"
     t.integer "created"
     t.integer "expires_at"
@@ -35,7 +35,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_084046) do
     t.string "price_uid"
     t.integer "current_period_start"
     t.integer "current_period_end"
-    t.string "status"
+    t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

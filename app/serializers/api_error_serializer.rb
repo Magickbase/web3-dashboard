@@ -1,5 +1,3 @@
-
-
 class ApiErrorSerializer
   def initialize(error)
     @error = error
@@ -9,7 +7,7 @@ class ApiErrorSerializer
     {
       code: @error.code,
       status: @error.status,
-      message: @error.message
+      message: @error.message,
     }
   end
 end

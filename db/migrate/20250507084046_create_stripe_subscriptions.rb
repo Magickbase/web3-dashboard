@@ -6,7 +6,7 @@ class CreateStripeSubscriptions < ActiveRecord::Migration[8.0]
       t.string :price_uid
       t.integer :current_period_start
       t.integer :current_period_end
-      t.string :status
+      t.integer :status
 
       t.timestamps
     end
