@@ -33,8 +33,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_084046) do
     t.integer "user_id", null: false
     t.string "subscription_uid"
     t.string "price_uid"
+    t.string "customer_uid"
     t.integer "current_period_start"
     t.integer "current_period_end"
+    t.integer "cancel_at"
+    t.integer "canceled_at"
+    t.boolean "cancel_at_period_end", default: false
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
