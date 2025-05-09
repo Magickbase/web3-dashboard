@@ -8,7 +8,7 @@ module CheckoutSessions
     string :mode, default: "subscription"
     string :customer_email, default: nil
 
-    # validate :validate_stripe_state!
+    validate :validate_stripe_state!
 
     def execute
       data = Stripe::Checkout::Session.create(payload)
