@@ -7,11 +7,14 @@ module Subscriptions
     validate :validate_stripe_state!
 
     def execute
-      subscription = user.stripe_subscriptions.effective
-      retrieve_data = Stripe::Subscription.retrieve(subscription.subscription_uid)
-      current_item_id = retrieve_data.items.data[0].id
+      data = user.stripe_subscriptions.effective
+      subscription_uid = data.subscription_uid
+
+      subscription = Stripe::Subscription.retrieve(subscription_uid)
+      subscription_item_uid = subscription.items.data[0].id
+
       Stripe::SubscriptionItem.update(
-        current_item_id, {
+        subscription_item_uid, {
           price:,
           payment_behavior: "default_incomplete",
           proration_behavior: "always_invoice",

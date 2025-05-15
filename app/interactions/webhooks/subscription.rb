@@ -28,6 +28,8 @@ module Webhooks
         return
       end
 
+      item = obj.items.data[0]
+
       StripeSubscription.create!(
         user_id: checkout_session.user_id,
         subscription_uid: obj.id,
@@ -36,6 +38,7 @@ module Webhooks
         current_period_end: obj.current_period_end,
         status: obj.status,
         created: obj.created,
+        price_uid: item.price.id,
       )
     end
 
@@ -46,14 +49,22 @@ module Webhooks
         return
       end
 
-      subscription.update!(
+
+      attributes = {
         current_period_start: obj.current_period_start,
         cancel_at_period_end: obj.cancel_at_period_end,
         cancel_at: obj.cancel_at,
         canceled_at: obj.canceled_at,
         current_period_end: obj.current_period_end,
         status: obj.status,
-      )
+      }
+
+      if obj.status.in?(%w[active trialing])
+        item = obj.items.data[0]
+        attributes[:price_uid] = item.price.id
+      end
+
+      subscription.update!(attributes)
     end
 
     def handle_subscription_deleted(obj)

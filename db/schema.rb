@@ -55,6 +55,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_15_065011) do
     t.boolean "cancel_at_period_end", default: false
     t.string "status"
     t.integer "created"
+    t.string "price_uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_stripe_subscriptions_on_user_id"

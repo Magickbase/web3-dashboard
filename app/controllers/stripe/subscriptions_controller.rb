@@ -9,7 +9,8 @@ module Stripe
 
     def update
       Subscriptions::Update.run!({ user: current_user, price: params[:price] })
-      render json:
+
+      head :ok
     end
 
     def destroy

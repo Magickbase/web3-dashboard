@@ -12,10 +12,6 @@ module Stripe
         return head :bad_request
       end
 
-      puts "========="
-      puts event.type
-      puts event.inspect
-
       case event.type
       when /^checkout.session\./
         Webhooks::CheckoutSession.run!(event:)

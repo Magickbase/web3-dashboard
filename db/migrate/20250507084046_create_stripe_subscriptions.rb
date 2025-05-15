@@ -11,6 +11,7 @@ class CreateStripeSubscriptions < ActiveRecord::Migration[8.0]
       t.boolean :cancel_at_period_end, default: false
       t.string :status
       t.integer :created
+      t.string :price_uid
 
       t.timestamps
     end
