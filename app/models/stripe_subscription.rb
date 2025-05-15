@@ -1,9 +1,9 @@
 class StripeSubscription < ApplicationRecord
   belongs_to :user
 
-  enum :status, { active: 0, canceled: 1 }
+  enum :status, { active: "active", canceled: "canceled" }
 
-  scope :effective, -> { where(status: :active).first }
+  scope :effective, -> { where(status: "active").first }
 
   def cancelable?
     return false if canceled_at.present? # 已完全取消

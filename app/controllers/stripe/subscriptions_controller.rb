@@ -7,6 +7,11 @@ module Stripe
       render json: StripeSubscriptionSerializer.new(subscription).serializable_hash
     end
 
+    def update
+      Subscriptions::Update.run!({ user: current_user, price: params[:price] })
+      render json:
+    end
+
     def destroy
       subscription = current_user.stripe_subscriptions.effective
       raise ApiError::UncancelableStripeSubscriptionError unless subscription.cancelable?
