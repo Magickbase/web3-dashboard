@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_07_084046) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_15_065011) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -19,25 +19,46 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_084046) do
     t.string "session_uid"
     t.decimal "amount_subtotal", precision: 30
     t.decimal "amount_total", precision: 30
-    t.integer "status", default: 0
+    t.string "status"
     t.string "customer_uid"
     t.integer "created"
     t.integer "expires_at"
     t.text "url"
+    t.string "subscription_uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_stripe_checkout_sessions_on_user_id"
   end
 
+  create_table "stripe_invoices", force: :cascade do |t|
+    t.string "invoice_uid"
+    t.integer "amount_due"
+    t.string "billing_reason"
+    t.integer "created"
+    t.string "customer_uid"
+    t.text "hosted_invoice_url"
+    t.string "subscription_uid"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invoice_uid"], name: "index_stripe_invoices_on_invoice_uid", unique: true
+  end
+
   create_table "stripe_subscriptions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "subscription_uid"
-    t.string "price_uid"
+    t.string "customer_uid"
     t.integer "current_period_start"
     t.integer "current_period_end"
-    t.integer "status"
+    t.integer "cancel_at"
+    t.integer "canceled_at"
+    t.boolean "cancel_at_period_end", default: false
+    t.string "status"
+    t.integer "created"
+    t.string "price_uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_stripe_subscriptions_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

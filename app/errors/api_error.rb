@@ -48,7 +48,19 @@ class ApiError < StandardError
 
   class StripeCheckoutSessionNotFoundError < ApiError
     def initialize(session_uid)
-      super(code: 1006, status: 404, message: "stripe checkout session #{session_uid} not found")
+      super(code: 1006, status: 404, message: "checkout session #{session_uid} not found")
+    end
+  end
+
+  class StripeActiveSubscriptionNotFoundError < ApiError
+    def initialize
+      super(code: 1007, status: 404, message: "no active subscription not found")
+    end
+  end
+
+  class UncancelableStripeSubscriptionError < ApiError
+    def initialize
+      super(code: 1008, status: 400, message: "subscription cannot be canceled")
     end
   end
 end

@@ -8,7 +8,7 @@ module CheckoutSessions
     string :mode, default: "subscription"
     string :customer_email, default: nil
 
-    # validate :validate_stripe_state!
+    validate :validate_stripe_state!
 
     def execute
       data = Stripe::Checkout::Session.create(payload)
@@ -20,7 +20,7 @@ module CheckoutSessions
         created: data.created,
         expires_at: data.expires_at,
         url: data.url,
-        status: "open",
+        status: data.status,
       )
       StripeCheckoutSessionSerializer.new(session).serializable_hash.to_json
     rescue Stripe::StripeError => e
@@ -37,9 +37,8 @@ module CheckoutSessions
     end
 
     def payload
-      req = { line_items: [{ price:, quantity: }], success_url:, mode: }
+      req = { line_items: [{ price:, quantity: }], success_url:, mode:, metadata: { user_id: user.id } }
       req[:customer_email] = customer_email if customer_email
-      req[:metadata] = { user_id: user.id }
       req
     end
   end

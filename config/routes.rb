@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   # root "posts#index"
   namespace :stripe do
     resources :checkout_sessions, param: :session_uid, only: %i[index create destroy]
+    resource :subscription, only: %i[show update destroy]
     resources :webhooks do
       post :callback, on: :collection
     end
