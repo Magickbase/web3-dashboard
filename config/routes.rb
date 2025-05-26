@@ -14,4 +14,5 @@ Rails.application.routes.draw do
       post :callback, on: :collection
     end
   end
+  resources :api_calls, only: :create
 end
