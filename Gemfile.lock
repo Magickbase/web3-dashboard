@@ -134,6 +134,9 @@ GEM
     has_scope (0.8.2)
       actionpack (>= 5.2)
       activesupport (>= 5.2)
+    hiredis (0.6.3)
+    hiredis-client (0.24.0)
+      redis-client (= 0.24.0)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     inherited_resources (1.14.0)
@@ -286,6 +289,10 @@ GEM
       i18n
     rdoc (6.13.1)
       psych (>= 4.0.0)
+    redis (5.4.0)
+      redis-client (>= 0.22.0)
+    redis-client (0.24.0)
+      connection_pool
     regexp_parser (2.10.0)
     reline (0.6.1)
       io-console (~> 0.5)
@@ -322,7 +329,22 @@ GEM
       rubocop-rails (>= 2.30)
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
+    rufus-scheduler (3.9.2)
+      fugit (~> 1.1, >= 1.11.1)
     securerandom (0.4.1)
+    sidekiq (8.0.3)
+      connection_pool (>= 2.5.0)
+      json (>= 2.9.0)
+      logger (>= 1.6.2)
+      rack (>= 3.1.0)
+      redis-client (>= 0.23.2)
+    sidekiq-scheduler (6.0.1)
+      rufus-scheduler (~> 3.2)
+      sidekiq (>= 7.3, < 9)
+    sidekiq-unique-jobs (8.0.11)
+      concurrent-ruby (~> 1.0, >= 1.0.5)
+      sidekiq (>= 7.0.0, < 9.0.0)
+      thor (>= 1.0, < 3.0)
     solid_cable (3.0.7)
       actioncable (>= 7.2)
       activejob (>= 7.2)
@@ -389,6 +411,8 @@ DEPENDENCIES
   debug
   devise
   dotenv-rails
+  hiredis
+  hiredis-client
   jsonapi-serializer
   kamal
   pagy
@@ -396,10 +420,14 @@ DEPENDENCIES
   puma (>= 5.0)
   rack-cors
   rails (~> 8.0.2)
+  redis
   rubocop
   rubocop-performance
   rubocop-rails
   rubocop-rails-omakase
+  sidekiq
+  sidekiq-scheduler
+  sidekiq-unique-jobs
   solid_cable
   solid_cache
   solid_queue

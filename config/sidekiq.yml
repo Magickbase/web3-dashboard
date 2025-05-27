@@ -1,0 +1,15 @@
+:concurrency: 5
+staging:
+  :concurrency: 10
+production:
+  :concurrency: 20
+:queues:
+  - critical
+  - default
+  - low
+
+:scheduler:
+  :schedule:
+    OpenapiPathExtractorJob:
+      every: "12h"
+      description: "Sync web3-platform openapi JSON file"
