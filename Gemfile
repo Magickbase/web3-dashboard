@@ -75,4 +75,5 @@ group :development, :test do
 end
 
 gem "active_interaction", "~> 5.5"
+gem "faraday"
 gem "pagy"

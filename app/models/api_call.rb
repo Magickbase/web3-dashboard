@@ -1,5 +1,22 @@
 class ApiCall < ApplicationRecord
-  enum :status, { pending: "pending", success: "success", failed: "failed" }
+  scope :unsynced, -> { where(synced: false) }
+
+  # Event format
+  # https://openmeter.io/docs/metering/events/usage-events#event-format
+  def to_event
+    unique_id = request_id.presence || id
+    data = slice(:api_key, :chain, :error_code, :http_status, :route, :source, :request_id, :credits_used)
+
+    {
+      specversion: "1.0",
+      type: "api_calls",
+      id: unique_id,
+      time: created,
+      source:,
+      subject: "user_#{user_id}",
+      data:,
+    }
+  end
 end
 
 # == Schema Information
@@ -9,19 +26,16 @@ end
 #  id               :bigint           not null, primary key
 #  api_key          :string
 #  chain            :string
-#  created          :integer
+#  created          :string
 #  credits_used     :integer
 #  error_code       :string
 #  http_status      :integer
-#  path             :string
 #  response_time_ms :integer
-#  status           :string
+#  route            :string
+#  source           :string
+#  synced           :boolean          default(FALSE)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  request_id       :uuid             not null
+#  request_id       :string
 #  user_id          :integer
-#
-# Indexes
-#
-#  index_api_calls_on_request_id  (request_id) UNIQUE
 #

@@ -8,11 +8,11 @@ end
 #  id          :bigint           not null, primary key
 #  credit_cost :integer          default(0)
 #  description :text
-#  path        :string
+#  route       :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
 # Indexes
 #
-#  index_api_credits_on_path  (path) UNIQUE
+#  index_api_credits_on_route  (route) UNIQUE
 #
