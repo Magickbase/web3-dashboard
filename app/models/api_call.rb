@@ -5,7 +5,7 @@ class ApiCall < ApplicationRecord
   # https://openmeter.io/docs/metering/events/usage-events#event-format
   def to_event
     unique_id = request_id.presence || id
-    data = slice(:api_key, :chain, :error_code, :http_status, :route, :source, :request_id, :credits_used)
+    data = slice(:api_key, :chain, :error_code, :http_status, :route, :source, :request_id, :credits_used).compact
 
     {
       specversion: "1.0",
