@@ -10,9 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_15_065011) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_26_043121) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "api_calls", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "request_id"
+    t.string "api_key"
+    t.string "route"
+    t.integer "http_status"
+    t.string "error_code"
+    t.integer "response_time_ms"
+    t.string "chain"
+    t.integer "credits_used"
+    t.string "created"
+    t.boolean "synced", default: false
+    t.string "source"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "api_credits", force: :cascade do |t|
+    t.string "route"
+    t.integer "credit_cost", default: 0
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["route"], name: "index_api_credits_on_route", unique: true
+  end
 
   create_table "stripe_checkout_sessions", force: :cascade do |t|
     t.integer "user_id", null: false

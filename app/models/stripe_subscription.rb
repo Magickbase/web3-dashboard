@@ -30,3 +30,27 @@ class StripeSubscription < ApplicationRecord
     true
   end
 end
+
+# == Schema Information
+#
+# Table name: stripe_subscriptions
+#
+#  id                   :bigint           not null, primary key
+#  cancel_at            :integer
+#  cancel_at_period_end :boolean          default(FALSE)
+#  canceled_at          :integer
+#  created              :integer
+#  current_period_end   :integer
+#  current_period_start :integer
+#  customer_uid         :string
+#  price_uid            :string
+#  status               :string
+#  subscription_uid     :string
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  user_id              :integer          not null
+#
+# Indexes
+#
+#  index_stripe_subscriptions_on_user_id  (user_id)
+#

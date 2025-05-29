@@ -1,0 +1,19 @@
+:concurrency: 5
+staging:
+  :concurrency: 10
+production:
+  :concurrency: 20
+:queues:
+  - critical
+  - default
+  - low
+  - openmeter
+
+:scheduler:
+  :schedule:
+    OpenapiPathExtractorJob:
+      every: "12h"
+      description: "Sync web3-platform openapi JSON file"
+    SyncApiCallsToOpenMeterJob:
+      every: "5s"
+      description: "Push unsynced API calls to OpenMeter"
