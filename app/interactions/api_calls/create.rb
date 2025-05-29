@@ -4,15 +4,16 @@ module ApiCalls
     string :api_key
     string :chain
     string :created
-    string :error_code
+    string :error_code, default: nil
     integer :http_status
-    string :path
     integer :response_time_ms
-    string :request_id
+    string :route
     string :source, default: "web3-platform"
+    string :request_uid
 
     def execute
-      ApiCall.create!(inputs)
+      credits_used = ApiCreditCache.read(route)
+      ApiCall.create!(inputs.merge(credits_used:))
     end
   end
 end

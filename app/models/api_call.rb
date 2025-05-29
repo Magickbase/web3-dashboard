@@ -1,11 +1,13 @@
 class ApiCall < ApplicationRecord
+  belongs_to :user
+
   scope :unsynced, -> { where(synced: false) }
 
   # Event format
   # https://openmeter.io/docs/metering/events/usage-events#event-format
   def to_event
-    unique_id = request_id.presence || id
-    data = slice(:api_key, :chain, :error_code, :http_status, :route, :source, :request_id, :credits_used).compact
+    unique_id = request_uid.presence || id
+    data = slice(:api_key, :chain, :error_code, :http_status, :route, :source, :request_uid, :credits_used).compact
 
     {
       specversion: "1.0",
@@ -30,12 +32,12 @@ end
 #  credits_used     :integer
 #  error_code       :string
 #  http_status      :integer
+#  request_uid      :string
 #  response_time_ms :integer
 #  route            :string
 #  source           :string
 #  synced           :boolean          default(FALSE)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  request_id       :string
 #  user_id          :integer
 #

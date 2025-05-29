@@ -16,7 +16,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_26_043121) do
 
   create_table "api_calls", force: :cascade do |t|
     t.integer "user_id"
-    t.string "request_id"
+    t.string "request_uid"
     t.string "api_key"
     t.string "route"
     t.integer "http_status"

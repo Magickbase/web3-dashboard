@@ -1,5 +1,5 @@
 require 'test_helper'
-class SyncApiCallsToOpenMeterJobTest < Minitest::Test
+class SyncApiCallsToOpenmeterJobTest < Minitest::Test
   def test_example
     skip "add some examples to (or delete) #{__FILE__}"
   end
