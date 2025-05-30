@@ -45,8 +45,9 @@ gem "stripe"
 gem "dotenv-rails"
 
 # Admin Dashboard
-gem "activeadmin"
+gem "activeadmin", "= 4.0.0beta15"
 gem "devise"
+gem "activeadmin_assets"
 
 # Redis
 gem "hiredis"
