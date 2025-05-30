@@ -11,7 +11,7 @@ class ApiCall < ApplicationRecord
 
     {
       specversion: "1.0",
-      type: "api_calls",
+      type: "request",
       id: unique_id,
       time: created,
       source:,

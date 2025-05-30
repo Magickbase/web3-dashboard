@@ -23,4 +23,5 @@ Rails.application.routes.draw do
     end
   end
   resources :api_calls, only: :create
+  resources :api_usage, only: :show
 end

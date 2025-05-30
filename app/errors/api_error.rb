@@ -63,4 +63,10 @@ class ApiError < StandardError
       super(code: 1008, status: 400, message: "subscription cannot be canceled")
     end
   end
+
+  class MetersQueryFailureError < ApiError
+    def initialize(status, message)
+      super(code: 1009, status: status, message:)
+    end
+  end
 end
