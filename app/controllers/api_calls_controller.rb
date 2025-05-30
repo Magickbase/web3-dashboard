@@ -8,6 +8,7 @@ class ApiCallsController < ApplicationController
   private
 
   def api_call_params
-    params.permit(:api_key, :chain, :created, :credits_used, :error_code, :http_status, :path, :response_time_ms)
+    params.permit(:api_key, :chain, :created, :error_code,
+                  :http_status, :response_time_ms, :route, :source, :request_uid)
   end
 end

@@ -2,7 +2,7 @@ class CreateApiCalls < ActiveRecord::Migration[8.0]
   def change
     create_table :api_calls do |t|
       t.integer :user_id
-      t.string :request_id
+      t.string :request_uid
       t.string :api_key
       t.string :route
       t.integer :http_status

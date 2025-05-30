@@ -1,4 +1,11 @@
 class ApiCredit < ApplicationRecord
+  after_commit :sync_credit_to_redis, if: :saved_change_to_credit_cost?
+
+  private
+
+  def sync_credit_to_redis
+    ApiCreditCache.write(route, credit_cost)
+  end
 end
 
 # == Schema Information
