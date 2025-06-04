@@ -29,15 +29,6 @@ class StripeSubscription < ApplicationRecord
 
     true
   end
-
-  def self.ransackable_attributes(auth_object = nil)
-    ["cancel_at", "cancel_at_period_end", "canceled_at", "created", "created_at", "current_period_end", "current_period_start", "customer_uid", "id", "price_uid", "status", "subscription_uid",
-     "updated_at", "user_id"]
-  end
-
-  def self.ransackable_associations(auth_object = nil)
-    ["user"]
-  end
 end
 
 # == Schema Information

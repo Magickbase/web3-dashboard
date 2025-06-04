@@ -6,10 +6,6 @@ class StripeInvoice < ApplicationRecord
     void: "void",
     uncollectible: "uncollectible",
   }
-
-  def self.ransackable_attributes(auth_object = nil)
-    ["amount_due", "billing_reason", "created", "created_at", "customer_uid", "hosted_invoice_url", "id", "invoice_uid", "status", "subscription_uid", "updated_at"]
-  end
 end
 
 # == Schema Information

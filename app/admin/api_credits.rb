@@ -1,11 +1,11 @@
-ActiveAdmin.register User do
+ActiveAdmin.register ApiCredit do
   # Specify parameters which should be permitted for assignment
-  permit_params 
+  permit_params :route, :credit_cost, :description
 
   # or consider:
   #
   # permit_params do
-  #   permitted = []
+  #   permitted = [:route, :credit_cost, :description]
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
@@ -14,15 +14,23 @@ ActiveAdmin.register User do
   actions :all, except: []
 
   # Add or remove filters to toggle their visibility
-  filter :subject
+  filter :id
+  filter :route
+  filter :credit_cost
+  filter :description
+  filter :created_at
+  filter :updated_at
 
   # Add or remove columns to toggle their visibility in the index action
   index do
     selectable_column
     id_column
-    column :subject
-    column :total_credits
-    column :remaining_credits
+    column :route
+    column :credit_cost
+    column "cached_credit_cost" do |c|
+      ApiCreditCache.read(c.route)
+    end
+    column :description
     column :created_at
     column :updated_at
     actions
@@ -32,9 +40,9 @@ ActiveAdmin.register User do
   show do
     attributes_table_for(resource) do
       row :id
-      row :subject
-      row :total_credits
-      row :remaining_credits
+      row :route
+      row :credit_cost
+      row :description
       row :created_at
       row :updated_at
     end
@@ -44,7 +52,9 @@ ActiveAdmin.register User do
   form do |f|
     f.semantic_errors(*f.object.errors.attribute_names)
     f.inputs do
-      
+      f.input :route, input_html: { disabled: true }
+      f.input :credit_cost
+      f.input :description
     end
     f.actions
   end
