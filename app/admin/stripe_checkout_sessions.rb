@@ -1,4 +1,5 @@
 ActiveAdmin.register StripeCheckoutSession do
+  menu parent: "Stripe"
   # Specify parameters which should be permitted for assignment
   permit_params :user_id, :session_uid, :amount_subtotal, :amount_total, :status, :customer_uid, :created, :expires_at, :url, :subscription_uid
 

@@ -1,4 +1,5 @@
 ActiveAdmin.register StripeSubscription do
+  menu parent: "Stripe"
   # Specify parameters which should be permitted for assignment
   permit_params :user_id, :subscription_uid, :customer_uid, :current_period_start, :current_period_end, :cancel_at, :canceled_at, :cancel_at_period_end, :status, :created, :price_uid
 

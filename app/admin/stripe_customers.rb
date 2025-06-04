@@ -1,28 +1,34 @@
-ActiveAdmin.register User do
+ActiveAdmin.register StripeCustomer do
+  menu parent: "Stripe"
   # Specify parameters which should be permitted for assignment
-  permit_params 
+  permit_params :user_id, :customer_uid, :email, :created
 
   # or consider:
   #
   # permit_params do
-  #   permitted = []
+  #   permitted = [:user_id, :customer_uid, :email, :created]
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
 
   # For security, limit the actions that should be available
-  actions :all, except: []
+  actions :index
 
   # Add or remove filters to toggle their visibility
-  filter :subject
+  filter :id
+  filter :user
+  filter :customer_uid
+  filter :email
+  filter :created
 
   # Add or remove columns to toggle their visibility in the index action
   index do
     selectable_column
     id_column
-    column :subject
-    column :total_credits
-    column :remaining_credits
+    column :user
+    column :customer_uid
+    column :email
+    column :created
     column :created_at
     column :updated_at
     actions
@@ -32,9 +38,10 @@ ActiveAdmin.register User do
   show do
     attributes_table_for(resource) do
       row :id
-      row :subject
-      row :total_credits
-      row :remaining_credits
+      row :user
+      row :customer_uid
+      row :email
+      row :created
       row :created_at
       row :updated_at
     end
@@ -44,7 +51,10 @@ ActiveAdmin.register User do
   form do |f|
     f.semantic_errors(*f.object.errors.attribute_names)
     f.inputs do
-      
+      f.input :user
+      f.input :customer_uid
+      f.input :email
+      f.input :created
     end
     f.actions
   end

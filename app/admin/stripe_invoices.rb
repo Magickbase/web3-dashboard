@@ -1,4 +1,5 @@
 ActiveAdmin.register StripeInvoice do
+  menu parent: "Stripe"
   # Specify parameters which should be permitted for assignment
   permit_params :invoice_uid, :amount_due, :billing_reason, :created, :customer_uid, :hosted_invoice_url, :subscription_uid, :status
 
