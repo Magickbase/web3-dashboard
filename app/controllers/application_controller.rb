@@ -1,17 +1,12 @@
 class ApplicationController < ActionController::Base
   include Pagy::Backend
-
-  before_action :authenticate_user!
+  include AuthConcern
 
   rescue_from ApiError, with: :handle_error
   rescue_from ActiveInteraction::InvalidInteractionError, with: :handle_params_error
   rescue_from Pagy::OverflowError, with: :handle_page_overflow_error
 
   attr_reader :current_user
-
-  def authenticate_user!
-    @current_user = User.first
-  end
 
   def handle_error(error)
     render json: ApiErrorSerializer.new(error), status: error.status
@@ -36,7 +31,7 @@ class ApplicationController < ActionController::Base
 
   def pagy_params
     {
-      page_size: params.fetch(:page_size, 20),
+      limit: params.fetch(:page_size, 20),
       page: params.fetch(:page, 1),
     }
   end

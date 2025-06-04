@@ -41,3 +41,7 @@ end
 #  updated_at       :datetime         not null
 #  user_id          :integer
 #
+# Indexes
+#
+#  index_api_calls_on_request_uid  (request_uid) UNIQUE
+#

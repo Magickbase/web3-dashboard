@@ -19,10 +19,22 @@ module Webhooks
       case event.type
       when "checkout.session.completed"
         session.update!(status: obj.status, customer_uid: obj.customer, subscription_uid: obj.subscription)
+        user.update!(total_credits: 100_000, remaining_credits: 100_000) # fix me
+        build_stripe_customer!(user, obj.customer)
       when "checkout.session.expired"
         session.update!(status: obj.status)
       else
         Rails.logger.info "unhandled stripe checkout session event: #{event.inspect}"
+      end
+    end
+
+    private
+
+    def build_stripe_customer!(user, customer_uid)
+      user.stripe_customers.find_or_create_by!(customer_uid:) do |sc|
+        customer = Stripe::Customer.retrieve(customer_uid)
+        sc.email   = customer.email
+        sc.created = customer.created
       end
     end
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_30_023743) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_04_034753) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -55,6 +55,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_30_023743) do
     t.string "source"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["request_uid"], name: "index_api_calls_on_request_uid", unique: true
   end
 
   create_table "api_credits", force: :cascade do |t|
@@ -80,6 +81,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_30_023743) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_stripe_checkout_sessions_on_user_id"
+  end
+
+  create_table "stripe_customers", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "customer_uid"
+    t.string "email"
+    t.integer "created"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "stripe_invoices", force: :cascade do |t|
@@ -116,5 +126,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_30_023743) do
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "subject"
+    t.bigint "total_credits", default: 0
+    t.bigint "remaining_credits", default: 0
   end
 end
