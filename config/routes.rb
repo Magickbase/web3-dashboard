@@ -26,4 +26,5 @@ Rails.application.routes.draw do
   end
   resources :api_calls, only: %i[index create]
   resources :api_usage, only: :show
+  resource :user_info, only: :show
 end
