@@ -1,5 +1,7 @@
-if ENV["STRIPE_API_KEY"].blank?
-  raise "environment: STRIPE_API_KEY not found, please check '.env' and restart."
-end
+unless Rails.env.test?
+  if ENV["STRIPE_API_KEY"].blank?
+    raise "environment: STRIPE_API_KEY not found, please check '.env' and restart."
+  end
 
-Stripe.api_key = ENV.fetch("STRIPE_API_KEY")
+  Stripe.api_key = ENV.fetch("STRIPE_API_KEY")
+end
