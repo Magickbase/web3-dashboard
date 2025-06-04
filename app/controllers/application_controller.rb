@@ -2,6 +2,8 @@ class ApplicationController < ActionController::Base
   include Pagy::Backend
   include AuthConcern
 
+  skip_before_action :verify_authenticity_token
+
   rescue_from ApiError, with: :handle_error
   rescue_from ActiveInteraction::InvalidInteractionError, with: :handle_params_error
   rescue_from Pagy::OverflowError, with: :handle_page_overflow_error
