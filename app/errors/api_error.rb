@@ -69,4 +69,16 @@ class ApiError < StandardError
       super(code: 1009, status: status, message:)
     end
   end
+
+  class UnauthorizedError < ApiError
+    def initialize(message)
+      super(code: 1010, status: 401, message:)
+    end
+  end
+
+  class InsufficientCreditsError < ApiError
+    def initialize
+      super(code: 1011, status: 402, message: "not enough credits")
+    end
+  end
 end

@@ -49,7 +49,6 @@ module Webhooks
         return
       end
 
-
       attributes = {
         current_period_start: obj.current_period_start,
         cancel_at_period_end: obj.cancel_at_period_end,

@@ -1,5 +1,7 @@
 module Stripe
   class SubscriptionsController < ApplicationController
+    before_action :authenticate_user!
+
     def show
       subscription = current_user.stripe_subscriptions.effective
       raise ApiError::StripeActiveSubscriptionNotFoundError unless subscription

@@ -24,6 +24,6 @@ Rails.application.routes.draw do
       post :callback, on: :collection
     end
   end
-  resources :api_calls, only: :create
+  resources :api_calls, only: %i[index create]
   resources :api_usage, only: :show
 end

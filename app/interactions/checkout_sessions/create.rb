@@ -2,7 +2,7 @@ module CheckoutSessions
   class Create < ActiveInteraction::Base
     object :user
     string :price
-    integer :quantity
+    integer :quantity, default: 1
     string :success_url, default: "https://example.com/success"
     string :cancel_url, default: nil
     string :mode, default: "subscription"
