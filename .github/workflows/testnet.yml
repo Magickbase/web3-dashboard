@@ -12,7 +12,7 @@ jobs:
     needs: build
     strategy:
       matrix:
-        workload: [web3-dashboard]
+        workload: [web3-dashboard, web3-dashboard-sidekiq]
     uses: ./.github/workflows/update-image.yml
     with:
       k8s-namespace: web3-platform
