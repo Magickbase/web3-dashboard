@@ -32,7 +32,7 @@ jobs:
           image: web3-dashboard
           registry: ghcr.io
           githubOrg: magickbase # optional
-          username: ${{ secrets.GHCR_USERNAME }}
+          username: magickbase
           password: ${{ secrets.GHCR_TOKEN }}
       - name: DeleteUselessImages
         run: docker images && docker images| grep "web3-dashboard" | grep -v "IMAGE ID" | awk 'NR>1 {print $3}' | xargs -I {}  docker rmi {}
