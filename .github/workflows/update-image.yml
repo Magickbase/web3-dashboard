@@ -34,3 +34,6 @@ jobs:
           method: "PUT"
           customHeaders: '{"Content-Type": "application/json", "Cookie": "KuboardUsername=${{ secrets.KUBOARD_USERNAME }}; KuboardAccessKey=${{ secrets.KUBOARD_ACCESS_KEY }}"}'
           data: '{"kind":"deployments","namespace":"${{ inputs.k8s-namespace }}","name":"${{ inputs.k8s-workload }}","images":{"ghcr.io/magickbase/web3-dashboard":"ghcr.io/magickbase/web3-dashboard:${{ inputs.image-tag }}"}}'
+      - name: Display Response
+        run: |
+          echo "Response headers: ${{ steps.http-request.outputs }}"
