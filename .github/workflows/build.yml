@@ -27,7 +27,7 @@ jobs:
           fetch-depth: 0
       - name: Build and push
         id: docker_build
-        uses: mr-smithers-excellent/docker-build-push@v6
+        uses: mr-smithers-excellent/docker-build-push@v5
         with:
           image: web3-dashboard
           registry: ghcr.io
