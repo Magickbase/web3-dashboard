@@ -12,7 +12,7 @@ jobs:
     needs: build
     strategy:
       matrix:
-        workload: [web3-dashboard]
+        workload: [web3-platform]
     uses: ./.github/workflows/update-image.yml
     with:
       k8s-namespace: testnet
