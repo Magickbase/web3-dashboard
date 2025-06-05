@@ -93,7 +93,6 @@ GEM
     ast (2.4.3)
     base64 (0.3.0)
     bcrypt (3.1.20)
-    bcrypt_pbkdf (1.1.1)
     benchmark (0.4.1)
     bigdecimal (3.2.0)
     bootsnap (1.18.6)
@@ -120,7 +119,6 @@ GEM
       dotenv (= 3.1.8)
       railties (>= 6.1)
     drb (2.2.3)
-    ed25519 (1.4.0)
     erb (5.0.1)
     erubi (1.13.1)
     et-orbi (1.2.11)
@@ -164,17 +162,6 @@ GEM
     json (2.12.2)
     jsonapi-serializer (2.2.0)
       activesupport (>= 4.2)
-    kamal (2.6.1)
-      activesupport (>= 7.0)
-      base64 (~> 0.2)
-      bcrypt_pbkdf (~> 1.0)
-      concurrent-ruby (~> 1.2)
-      dotenv (~> 3.1)
-      ed25519 (~> 1.4)
-      net-ssh (~> 7.3)
-      sshkit (>= 1.23.0, < 2.0)
-      thor (~> 1.3)
-      zeitwerk (>= 2.6.18, < 3.0)
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.2)
@@ -211,13 +198,8 @@ GEM
       net-protocol
     net-protocol (0.2.2)
       timeout
-    net-scp (4.1.0)
-      net-ssh (>= 2.6.5, < 8.0.0)
-    net-sftp (4.0.0)
-      net-ssh (>= 5.0.0, < 8.0.0)
     net-smtp (0.5.1)
       net-protocol
-    net-ssh (7.3.0)
     nio4r (2.7.4)
     nokogiri (1.18.8-aarch64-linux-gnu)
       racc (~> 1.4)
@@ -234,7 +216,6 @@ GEM
     nokogiri (1.18.8-x86_64-linux-musl)
       racc (~> 1.4)
     orm_adapter (0.5.0)
-    ostruct (0.6.1)
     pagy (9.3.4)
     parallel (1.27.0)
     parser (3.3.8.0)
@@ -356,29 +337,6 @@ GEM
       concurrent-ruby (~> 1.0, >= 1.0.5)
       sidekiq (>= 7.0.0, < 9.0.0)
       thor (>= 1.0, < 3.0)
-    solid_cable (3.0.8)
-      actioncable (>= 7.2)
-      activejob (>= 7.2)
-      activerecord (>= 7.2)
-      railties (>= 7.2)
-    solid_cache (1.0.7)
-      activejob (>= 7.2)
-      activerecord (>= 7.2)
-      railties (>= 7.2)
-    solid_queue (1.1.5)
-      activejob (>= 7.1)
-      activerecord (>= 7.1)
-      concurrent-ruby (>= 1.3.1)
-      fugit (~> 1.11.0)
-      railties (>= 7.1)
-      thor (~> 1.3.1)
-    sshkit (1.24.0)
-      base64
-      logger
-      net-scp (>= 1.1.2)
-      net-sftp (>= 2.1.2)
-      net-ssh (>= 2.8.0)
-      ostruct
     stringio (3.1.7)
     stripe (15.2.0)
     thor (1.3.2)
@@ -427,7 +385,6 @@ DEPENDENCIES
   hiredis
   hiredis-client
   jsonapi-serializer
-  kamal
   pagy
   pg (~> 1.1)
   puma (>= 5.0)
@@ -441,9 +398,6 @@ DEPENDENCIES
   sidekiq
   sidekiq-scheduler
   sidekiq-unique-jobs
-  solid_cable
-  solid_cache
-  solid_queue
   stripe
   thruster
   tzinfo-data

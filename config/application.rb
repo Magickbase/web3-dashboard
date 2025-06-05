@@ -28,8 +28,9 @@ module Web3Dashboard
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.hosts = [
-      /.*.app/, # Allow requests from subdomains like `www.example.com`
       "localhost:3000",
+      "127.0.0.1:3000",
+      "0.0.0.0:3000",
     ]
   end
 end
