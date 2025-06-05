@@ -32,5 +32,7 @@ module Web3Dashboard
       "127.0.0.1:3000",
       "0.0.0.0:3000",
     ]
+
+    config.hosts << ENV.fetch("HOST", nil) if ENV["HOST"].present?
   end
 end
