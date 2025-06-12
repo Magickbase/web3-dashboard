@@ -14,16 +14,11 @@ ActiveAdmin.register ApiCall do
   actions :index, :show
 
   # Add or remove filters to toggle their visibility
-  filter :id
-  filter :user
+  filter :user_subject, as: :string
   filter :request_uid
   filter :api_key
   filter :route
-  filter :http_status
-  filter :error_code
-  filter :response_time_ms
   filter :chain
-  filter :credits_used
   filter :created
   filter :synced
   filter :source
@@ -32,7 +27,13 @@ ActiveAdmin.register ApiCall do
   index do
     selectable_column
     id_column
-    column :user
+    column :user do |record|
+      if record.user&.subject.present?
+        link_to record.user.subject, admin_user_path(record.user)
+      elsif record.user
+        link_to "User ##{record.user.id}", admin_user_path(record.user)
+      end
+    end
     column :request_uid
     column :api_key
     column :route

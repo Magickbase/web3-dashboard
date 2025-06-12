@@ -1,31 +1,21 @@
 ActiveAdmin.register StripeCustomer do
   menu parent: "Stripe"
-  # Specify parameters which should be permitted for assignment
-  permit_params :user_id, :customer_uid, :email, :created
-
-  # or consider:
-  #
-  # permit_params do
-  #   permitted = [:user_id, :customer_uid, :email, :created]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
-
-  # For security, limit the actions that should be available
   actions :index
 
-  # Add or remove filters to toggle their visibility
-  filter :id
-  filter :user
+  filter :user_subject, as: :string
   filter :customer_uid
   filter :email
-  filter :created
 
-  # Add or remove columns to toggle their visibility in the index action
   index do
     selectable_column
     id_column
-    column :user
+    column :user do |record|
+      if record.user&.subject.present?
+        link_to record.user.subject, admin_user_path(record.user)
+      elsif record.user
+        link_to "User ##{record.user.id}", admin_user_path(record.user)
+      end
+    end
     column :customer_uid
     column :email
     column :created
@@ -34,7 +24,6 @@ ActiveAdmin.register StripeCustomer do
     actions
   end
 
-  # Add or remove rows to toggle their visibility in the show action
   show do
     attributes_table_for(resource) do
       row :id
@@ -45,17 +34,5 @@ ActiveAdmin.register StripeCustomer do
       row :created_at
       row :updated_at
     end
-  end
-
-  # Add or remove fields to toggle their visibility in the form
-  form do |f|
-    f.semantic_errors(*f.object.errors.attribute_names)
-    f.inputs do
-      f.input :user
-      f.input :customer_uid
-      f.input :email
-      f.input :created
-    end
-    f.actions
   end
 end
