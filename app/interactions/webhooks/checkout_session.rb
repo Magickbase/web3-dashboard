@@ -3,10 +3,7 @@ module Webhooks
     def handle
       obj = event.data.object
 
-      user_id = obj.dig(:metadata, :user_id)
-      raise "Missing user_id in metadata" unless user_id
-
-      user = User.find_by(id: user_id)
+      user = User.find_by(id: obj.metadata[:user_id])
       raise "User #{user_id} not found" unless user
 
       session = user.stripe_checkout_sessions.find_by(session_uid: obj.id)
