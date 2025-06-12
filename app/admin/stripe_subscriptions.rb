@@ -1,40 +1,23 @@
 ActiveAdmin.register StripeSubscription do
   menu parent: "Stripe"
-  # Specify parameters which should be permitted for assignment
-  permit_params :user_id, :subscription_uid, :customer_uid, :current_period_start, :current_period_end, :cancel_at, :canceled_at, :cancel_at_period_end, :status, :created, :price_uid
+  actions :index, :show
 
-  # or consider:
-  #
-  # permit_params do
-  #   permitted = [:user_id, :subscription_uid, :customer_uid, :current_period_start, :current_period_end, :cancel_at, :canceled_at, :cancel_at_period_end, :status, :created, :price_uid]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
-
-  # For security, limit the actions that should be available
-  actions :all, except: %i[new edit destroy]
-
-  # Add or remove filters to toggle their visibility
-  filter :id
-  filter :user
+  filter :user_subject, as: :string
   filter :subscription_uid
   filter :customer_uid
-  filter :current_period_start
-  filter :current_period_end
-  filter :cancel_at
-  filter :canceled_at
-  filter :cancel_at_period_end
-  filter :status
   filter :created
   filter :price_uid
-  filter :created_at
-  filter :updated_at
 
-  # Add or remove columns to toggle their visibility in the index action
   index do
     selectable_column
     id_column
-    column :user
+    column :user do |record|
+      if record.user&.subject.present?
+        link_to record.user.subject, admin_user_path(record.user)
+      elsif record.user
+        link_to "User ##{record.user.id}", admin_user_path(record.user)
+      end
+    end
     column :subscription_uid
     column :customer_uid
     column :current_period_start
@@ -50,7 +33,6 @@ ActiveAdmin.register StripeSubscription do
     actions
   end
 
-  # Add or remove rows to toggle their visibility in the show action
   show do
     attributes_table_for(resource) do
       row :id
@@ -68,24 +50,5 @@ ActiveAdmin.register StripeSubscription do
       row :created_at
       row :updated_at
     end
-  end
-
-  # Add or remove fields to toggle their visibility in the form
-  form do |f|
-    f.semantic_errors(*f.object.errors.attribute_names)
-    f.inputs do
-      f.input :user
-      f.input :subscription_uid
-      f.input :customer_uid
-      f.input :current_period_start
-      f.input :current_period_end
-      f.input :cancel_at
-      f.input :canceled_at
-      f.input :cancel_at_period_end
-      f.input :status
-      f.input :created
-      f.input :price_uid
-    end
-    f.actions
   end
 end

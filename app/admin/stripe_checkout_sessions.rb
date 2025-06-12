@@ -1,39 +1,22 @@
 ActiveAdmin.register StripeCheckoutSession do
   menu parent: "Stripe"
-  # Specify parameters which should be permitted for assignment
-  permit_params :user_id, :session_uid, :amount_subtotal, :amount_total, :status, :customer_uid, :created, :expires_at, :url, :subscription_uid
-
-  # or consider:
-  #
-  # permit_params do
-  #   permitted = [:user_id, :session_uid, :amount_subtotal, :amount_total, :status, :customer_uid, :created, :expires_at, :url, :subscription_uid]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
-
-  # For security, limit the actions that should be available
   actions :all, except: %i[new edit destroy]
 
-  # Add or remove filters to toggle their visibility
-  filter :id
-  filter :user
+  filter :user_subject, as: :string
   filter :session_uid
-  filter :amount_subtotal
-  filter :amount_total
   filter :status
-  filter :customer_uid
-  filter :created
-  filter :expires_at
-  filter :url
   filter :subscription_uid
-  filter :created_at
-  filter :updated_at
 
-  # Add or remove columns to toggle their visibility in the index action
   index do
     selectable_column
     id_column
-    column :user
+    column :user do |record|
+      if record.user&.subject.present?
+        link_to record.user.subject, admin_user_path(record.user)
+      elsif record.user
+        link_to "User ##{record.user.id}", admin_user_path(record.user)
+      end
+    end
     column :session_uid
     column :amount_subtotal
     column :amount_total
@@ -41,14 +24,12 @@ ActiveAdmin.register StripeCheckoutSession do
     column :customer_uid
     column :created
     column :expires_at
-    column :url
     column :subscription_uid
     column :created_at
     column :updated_at
     actions
   end
 
-  # Add or remove rows to toggle their visibility in the show action
   show do
     attributes_table_for(resource) do
       row :id
@@ -60,7 +41,11 @@ ActiveAdmin.register StripeCheckoutSession do
       row :customer_uid
       row :created
       row :expires_at
-      row :url
+      row :url do |record|
+        div style: "word-break: break-all; white-space: normal; max-width: 600px;" do
+          record.url
+        end
+      end
       row :subscription_uid
       row :created_at
       row :updated_at
