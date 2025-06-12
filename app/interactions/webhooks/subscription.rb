@@ -1,8 +1,6 @@
 module Webhooks
-  class Subscription < ActiveInteraction::Base
-    object :event, class: Stripe::Event
-
-    def execute
+  class Subscription < BaseInteraction
+    def handle
       obj = event.data.object
 
       case event.type
@@ -13,7 +11,7 @@ module Webhooks
       when "customer.subscription.deleted"
         handle_subscription_deleted(obj)
       else
-        Rails.logger.warn "unhandled stripe checkout session event: #{event.inspect}"
+        Rails.logger.warn "Unhandled stripe subscription event: #{event.inspect}"
       end
     end
 
@@ -24,8 +22,7 @@ module Webhooks
 
       checkout_session = StripeCheckoutSession.find_by(subscription_uid: obj.id)
       unless checkout_session
-        Rails.logger.error "stripe subscription (#{obj.id}) has no matching checkout session: #{obj.inspect}"
-        return
+        raise "Missing checkout session for subscription #{obj.id}"
       end
 
       item = obj.items.data[0]
@@ -44,10 +41,7 @@ module Webhooks
 
     def handle_subscription_updated(obj)
       subscription = StripeSubscription.find_by(subscription_uid: obj.id)
-      unless subscription
-        Rails.logger.error "stripe checkout session (#{obj.id}) not found: #{obj.inspect}"
-        return
-      end
+      raise "Subscription #{obj.id} not found" unless subscription
 
       attributes = {
         current_period_start: obj.current_period_start,
@@ -59,8 +53,7 @@ module Webhooks
       }
 
       if obj.status.in?(%w[active trialing])
-        item = obj.items.data[0]
-        attributes[:price_uid] = item.price.id
+        attributes[:price_uid] = obj.items.data[0].price.id
       end
 
       subscription.update!(attributes)
@@ -68,10 +61,7 @@ module Webhooks
 
     def handle_subscription_deleted(obj)
       subscription = StripeSubscription.find_by(subscription_uid: obj.id)
-      unless subscription
-        Rails.logger.error "stripe checkout session (#{obj.id}) not found: #{obj.inspect}"
-        return
-      end
+      raise "Subscription #{obj.id} not found" unless subscription
 
       subscription.update!(status: obj.status)
     end

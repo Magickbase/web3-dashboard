@@ -1,9 +1,10 @@
 module Webhooks
-  class Invoice < ActiveInteraction::Base
-    object :event, class: Stripe::Event
-
-    def execute
+  class Invoice < BaseInteraction
+    def handle
       obj = event.data.object
+
+      raise "Missing invoice id" if obj.id.blank?
+
       attrs = {
         invoice_uid: obj.id,
         amount_due: obj.amount_due,
@@ -14,7 +15,11 @@ module Webhooks
         subscription_uid: obj.subscription,
         status: obj.status,
       }
+
       StripeInvoice.upsert(attrs, unique_by: :invoice_uid)
+    rescue StandardError => e
+      errors.add(:base, "Invoice event processing failed: #{e.message}")
+      raise
     end
   end
 end
