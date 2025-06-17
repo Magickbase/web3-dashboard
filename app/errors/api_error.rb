@@ -81,4 +81,10 @@ class ApiError < StandardError
       super(code: 1011, status: 402, message: "not enough credits")
     end
   end
+
+  class InvalidStripePriceError < ApiError
+    def initialize
+      super(code: 1012, status: 422, message: "stripe price not found or credit_quota is invalid")
+    end
+  end
 end

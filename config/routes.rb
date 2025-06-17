@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   namespace :stripe do
     resources :checkout_sessions, param: :session_uid, only: %i[index create destroy]
     resource :subscription, only: %i[show update destroy]
+    resources :products, only: :index
     resources :webhooks do
       post :callback, on: :collection
     end
