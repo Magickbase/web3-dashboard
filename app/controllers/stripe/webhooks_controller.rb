@@ -18,6 +18,10 @@ module Stripe
           Webhooks::Subscription.run(event:)
         when /^invoice\./
           Webhooks::Invoice.run(event:)
+        when /^product\./
+          Webhooks::Product.run(event:)
+        when /^price\./
+          Webhooks::Price.run(event:)
         else
           Rails.logger.warn "unhandled event type: #{event.type}"
           nil

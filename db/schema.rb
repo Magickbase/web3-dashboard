@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_04_034753) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_16_052704) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -104,6 +104,39 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_04_034753) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invoice_uid"], name: "index_stripe_invoices_on_invoice_uid", unique: true
+  end
+
+  create_table "stripe_prices", force: :cascade do |t|
+    t.string "nickname"
+    t.string "price_uid"
+    t.string "product_uid"
+    t.boolean "active"
+    t.integer "created"
+    t.string "currency"
+    t.jsonb "metadata", default: {}
+    t.integer "unit_amount"
+    t.string "unit_amount_decimal"
+    t.string "billing_type"
+    t.boolean "livemode", default: false
+    t.jsonb "recurring", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["price_uid"], name: "index_stripe_prices_on_price_uid", unique: true
+  end
+
+  create_table "stripe_products", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "product_uid"
+    t.boolean "active", default: true
+    t.string "default_price_uid"
+    t.boolean "livemode", default: false
+    t.integer "created"
+    t.integer "updated"
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_uid"], name: "index_stripe_products_on_product_uid", unique: true
   end
 
   create_table "stripe_subscriptions", force: :cascade do |t|
