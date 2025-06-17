@@ -28,7 +28,7 @@ module Stripe
     private
 
     def checkout_session_params
-      params.permit(:price, :quantity, :customer_email, :success_url)
+      params.permit(:price, :quantity, :customer_email, :success_url, :mode)
     end
   end
 end

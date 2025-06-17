@@ -6,13 +6,12 @@ class ApiCall < ApplicationRecord
   # Event format
   # https://openmeter.io/docs/metering/events/usage-events#event-format
   def to_event
-    unique_id = request_uid.presence || id
-    data = slice(:api_key, :chain, :error_code, :http_status, :route, :source, :request_uid, :credits_used).compact
+    data = slice(:api_key, :route, :source, :credits_used, :input_data, :response_time_ms).compact
 
     {
       specversion: "1.0",
       type: "request",
-      id: unique_id,
+      id: id.to_s,
       time: created,
       source:,
       subject: "user_#{user_id}",
@@ -27,11 +26,11 @@ end
 #
 #  id               :bigint           not null, primary key
 #  api_key          :string
-#  chain            :string
 #  created          :string
 #  credits_used     :integer
 #  error_code       :string
 #  http_status      :integer
+#  input_data       :jsonb
 #  request_uid      :string
 #  response_time_ms :integer
 #  route            :string

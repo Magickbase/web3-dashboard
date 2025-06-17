@@ -1,9 +1,9 @@
 module Webhooks
   class Invoice < BaseInteraction
     def handle
-      obj = event.data.object
-
-      raise "Missing invoice id" if obj.id.blank?
+      invoice_uid = event.data.object.id
+      obj = Stripe::Invoice.retrieve(invoice_uid)
+      subscription_uid = obj.parent.subscription_details.subscription
 
       attrs = {
         invoice_uid: obj.id,
@@ -12,7 +12,7 @@ module Webhooks
         created: obj.created,
         customer_uid: obj.customer,
         hosted_invoice_url: obj.hosted_invoice_url,
-        subscription_uid: obj.subscription,
+        subscription_uid:,
         status: obj.status,
       }
 

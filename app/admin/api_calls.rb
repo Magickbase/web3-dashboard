@@ -1,29 +1,12 @@
 ActiveAdmin.register ApiCall do
-  # Specify parameters which should be permitted for assignment
-  permit_params :user_id, :request_uid, :api_key, :route, :http_status, :error_code, :response_time_ms, :chain, :credits_used, :created, :synced, :source
-
-  # or consider:
-  #
-  # permit_params do
-  #   permitted = [:user_id, :request_uid, :api_key, :route, :http_status, :error_code, :response_time_ms, :chain, :credits_used, :created, :synced, :source]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
-
-  # For security, limit the actions that should be available
   actions :index, :show
 
-  # Add or remove filters to toggle their visibility
   filter :user_subject, as: :string
-  filter :request_uid
   filter :api_key
   filter :route
-  filter :chain
-  filter :created
   filter :synced
   filter :source
 
-  # Add or remove columns to toggle their visibility in the index action
   index do
     selectable_column
     id_column
@@ -34,17 +17,14 @@ ActiveAdmin.register ApiCall do
         link_to "User ##{record.user.id}", admin_user_path(record.user)
       end
     end
-    column :request_uid
     column :api_key
     column :route
-    column :http_status
-    column :error_code
     column :response_time_ms
-    column :chain
     column :credits_used
     column :created
     column :synced
     column :source
+    column :input_data
     column :created_at
     column :updated_at
     actions
@@ -61,7 +41,6 @@ ActiveAdmin.register ApiCall do
       row :http_status
       row :error_code
       row :response_time_ms
-      row :chain
       row :credits_used
       row :created
       row :synced

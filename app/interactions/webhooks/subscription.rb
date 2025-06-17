@@ -1,7 +1,10 @@
 module Webhooks
   class Subscription < BaseInteraction
+    attr_reader :strip_subscription
+
     def handle
-      obj = event.data.object
+      subscription_uid = event.data.object.id
+      obj = Stripe::Subscription.retrieve(subscription_uid)
 
       case event.type
       when "customer.subscription.created"
@@ -31,8 +34,8 @@ module Webhooks
         user_id: checkout_session.user_id,
         subscription_uid: obj.id,
         customer_uid: obj.customer,
-        current_period_start: obj.current_period_start,
-        current_period_end: obj.current_period_end,
+        current_period_start: item.current_period_start,
+        current_period_end: item.current_period_start,
         status: obj.status,
         created: obj.created,
         price_uid: item.price.id,
@@ -43,18 +46,17 @@ module Webhooks
       subscription = StripeSubscription.find_by(subscription_uid: obj.id)
       raise "Subscription #{obj.id} not found" unless subscription
 
+      item = obj.items.data[0]
+
       attributes = {
-        current_period_start: obj.current_period_start,
+        current_period_start: item.current_period_start,
         cancel_at_period_end: obj.cancel_at_period_end,
         cancel_at: obj.cancel_at,
         canceled_at: obj.canceled_at,
-        current_period_end: obj.current_period_end,
+        current_period_end: item.current_period_end,
         status: obj.status,
+        price_uid: item.price.id,
       }
-
-      if obj.status.in?(%w[active trialing])
-        attributes[:price_uid] = obj.items.data[0].price.id
-      end
 
       subscription.update!(attributes)
     end
