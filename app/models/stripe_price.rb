@@ -4,7 +4,9 @@ class StripePrice < ApplicationRecord
   belongs_to :stripe_product, foreign_key: :product_uid, primary_key: :product_uid
 
   def credit_quota
-    metadata["credit_quota"]
+    metadata["credit_quota"].to_i
+  rescue StandardError
+    0
   end
 end
 

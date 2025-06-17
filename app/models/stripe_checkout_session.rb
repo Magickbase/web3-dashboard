@@ -1,5 +1,6 @@
 class StripeCheckoutSession < ApplicationRecord
   belongs_to :user
+  has_one :stripe_subscription, foreign_key: :subscription_uid, primary_key: :subscription_uid
 
   enum :status, { open: "open", complete: "complete", expired: "expired" }
 end

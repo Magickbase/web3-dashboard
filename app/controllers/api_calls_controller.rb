@@ -8,7 +8,7 @@ class ApiCallsController < ApplicationController
   end
 
   def create
-    ApiCalls::Create.run!(api_call_params.merge({ user: current_user }))
+    ApiCalls::Create.run!(api_call_params.merge(user: current_user))
 
     head :ok
   end
@@ -16,7 +16,6 @@ class ApiCallsController < ApplicationController
   private
 
   def api_call_params
-    params.permit(:api_key, :chain, :created, :error_code,
-                  :http_status, :response_time_ms, :route, :source, :request_uid)
+    params.permit(:api_key, :route, :created, :response_time_ms, :source, input_data: {})
   end
 end

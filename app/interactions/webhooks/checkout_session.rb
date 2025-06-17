@@ -1,7 +1,8 @@
 module Webhooks
   class CheckoutSession < BaseInteraction
     def handle
-      obj = event.data.object
+      session_uid = event.data.object.id
+      obj = Stripe::Checkout::Session.retrieve(session_uid)
 
       user = User.find_by(id: obj.metadata[:user_id])
       raise "User #{user_id} not found" unless user
@@ -22,18 +23,15 @@ module Webhooks
     private
 
     def handle_completed(session, user, obj)
-      session.update!(
-        status: obj.status,
-        customer_uid: obj.customer,
-        subscription_uid: obj.subscription,
-      )
+      ApplicationRecord.transaction do
+        session.update!(
+          status: obj.status,
+          customer_uid: obj.customer,
+          subscription_uid: obj.subscription,
+        )
 
-      user.update!(
-        total_credits: 100_000,
-        remaining_credits: 100_000,
-      ) # TODO: use dynamic value or pricing logic
-
-      build_stripe_customer!(user, obj.customer)
+        build_stripe_customer!(user, obj.customer)
+      end
     end
 
     def build_stripe_customer!(user, customer_uid)

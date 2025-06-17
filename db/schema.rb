@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_16_052704) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_17_030201) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -48,13 +48,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_16_052704) do
     t.integer "http_status"
     t.string "error_code"
     t.integer "response_time_ms"
-    t.string "chain"
     t.integer "credits_used"
     t.string "created"
     t.boolean "synced", default: false
     t.string "source"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "input_data", default: {}
     t.index ["request_uid"], name: "index_api_calls_on_request_uid", unique: true
   end
 

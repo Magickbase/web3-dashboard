@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  wrap_parameters false
+
   include Pagy::Backend
   include AuthConcern
 

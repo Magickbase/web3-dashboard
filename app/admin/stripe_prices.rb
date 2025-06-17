@@ -47,5 +47,21 @@ ActiveAdmin.register StripePrice do
       row :created_at
       row :updated_at
     end
+
+    tabs do
+      tab :stripe_product do
+        table_for resource.stripe_product do
+          column :name
+          column :description
+          column :product_uid
+          column :active
+          column :default_price_uid
+          column :livemode
+          column :created
+          column :updated
+          column :price_on
+        end
+      end
+    end
   end
 end
