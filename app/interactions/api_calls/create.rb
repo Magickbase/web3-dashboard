@@ -21,11 +21,9 @@ module ApiCalls
     private
 
     def deduct_credits!(amount)
-      if user.remaining_credits >= amount
-        user.update!(remaining_credits: user.remaining_credits - amount)
-      else
-        raise ApiError::InsufficientCreditsError
-      end
+      CreditsService.new(user).deduct!(amount)
+    rescue CreditsService::InsufficientCreditsError
+      raise ApiError::InsufficientCreditsError
     end
   end
 end

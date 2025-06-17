@@ -30,25 +30,16 @@ module Webhooks
 
       item = obj.items.data[0]
 
-      ApplicationRecord.transaction do
-        StripeSubscription.create!(
-          user_id: checkout_session.user_id,
-          subscription_uid: obj.id,
-          customer_uid: obj.customer,
-          current_period_start: item.current_period_start,
-          current_period_end: item.current_period_start,
-          status: obj.status,
-          created: obj.created,
-          price_uid: item.price.id,
-        )
-
-        # 订阅成功后重置用户 credits 数量
-        price = checkout_session.stripe_subscription.stripe_price
-        checkout_session.user.update!(
-          total_credits: price.credit_quota,
-          remaining_credits: price.credit_quota,
-        )
-      end
+      StripeSubscription.create!(
+        user_id: checkout_session.user_id,
+        subscription_uid: obj.id,
+        customer_uid: obj.customer,
+        current_period_start: item.current_period_start,
+        current_period_end: item.current_period_start,
+        status: obj.status,
+        created: obj.created,
+        price_uid: item.price.id,
+      )
     end
 
     def handle_subscription_updated(obj)
