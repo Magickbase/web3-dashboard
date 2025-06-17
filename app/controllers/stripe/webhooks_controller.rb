@@ -2,11 +2,17 @@ module Stripe
   class WebhooksController < ApplicationController
     def callback
       payload = request.body.read
+      sig_header = request.env["HTTP_STRIPE_SIGNATURE"]
+      endpoint_secret = ENV.fetch("STRIPE_WEBHOOK_ENDPOINT_SECRET", nil)
 
       begin
-        event = Stripe::Event.construct_from(JSON.parse(payload, symbolize_names: true))
+        event = Stripe::Webhook.construct_event(payload, sig_header, endpoint_secret)
       rescue JSON::ParserError => e
         Rails.logger.error "Webhook JSON parse error: #{e.message}"
+        return head :bad_request
+      rescue Stripe::SignatureVerificationError => e
+        # Invalid signature
+        Rails.logger.error "Error verifying webhook signature: #{e.message}"
         return head :bad_request
       end
 
