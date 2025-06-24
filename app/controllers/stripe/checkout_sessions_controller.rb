@@ -22,7 +22,7 @@ module Stripe
     def destroy
       CheckoutSessions::Destroy.run!({ user: current_user, session_uid: params[:session_uid] })
 
-      head :ok
+      render_success
     end
 
     private
