@@ -10,7 +10,7 @@ class ApiCallsController < ApplicationController
   def create
     ApiCalls::Create.run!(api_call_params.merge(user: current_user))
 
-    head :ok
+    render_success
   end
 
   private
