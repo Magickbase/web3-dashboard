@@ -1,6 +1,7 @@
 class StripeSubscription < ApplicationRecord
   belongs_to :user
   has_one :stripe_price, foreign_key: :price_uid, primary_key: :price_uid
+  has_one :stripe_product, through: :stripe_price
 
   enum :status, {
     incomplete: "incomplete",
