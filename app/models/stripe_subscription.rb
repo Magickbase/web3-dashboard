@@ -14,8 +14,6 @@ class StripeSubscription < ApplicationRecord
     paused: "paused",
   }
 
-  scope :effective, -> { find_by(status: "active") }
-
   def cancelable?
     return false if canceled_at.present? # 已完全取消
     return false if cancel_at_period_end # 已设为到期取消
