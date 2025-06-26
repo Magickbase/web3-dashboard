@@ -1,8 +1,12 @@
 class User < ApplicationRecord
   has_many :stripe_customers
   has_many :stripe_checkout_sessions
-  has_many :stripe_subscriptions
   has_many :api_calls
+  has_many :stripe_subscriptions do
+    def effective
+      where(status: %w[active trialing past_due]).first
+    end
+  end
 end
 
 # == Schema Information
