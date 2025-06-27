@@ -12,7 +12,7 @@ production:
 :scheduler:
   :schedule:
     OpenapiPathExtractorJob:
-      every: "12h"
+      every: "5m"
       description: "Sync web3-platform openapi JSON file"
     SyncApiCallsToOpenmeterJob:
       every: "5s"
