@@ -11,6 +11,11 @@ module CheckoutSessions
     validate :validate_stripe_state!
 
     def execute
+      open_session = user.stripe_checkout_sessions.open
+      if open_session.exists?
+        return StripeCheckoutSessionSerializer.new(open_session.first).serializable_hash.to_json
+      end
+
       data = Stripe::Checkout::Session.create(payload)
       session = StripeCheckoutSession.create!(
         user_id: user.id,
@@ -33,12 +38,10 @@ module CheckoutSessions
     private
 
     # 校验
-    # 	1.	检查是否有未支付的订单
-    # 	2.	检查是否已订阅
-    # 	3.	检查 price 对应的本地记录是否存在
-    # 	4. 检查该价格配置的 credits 是否合理
+    # 	1.	检查是否已订阅
+    # 	2.	检查 price 对应的本地记录是否存在
+    # 	3. 检查该价格配置的 credits 是否合理
     def validate_stripe_state!
-      raise ApiError::OpenStripeCheckoutSessionExistsError if user.stripe_checkout_sessions.open.exists?
       raise ApiError::ActiveStripeSubscriptionExistsError if user.stripe_subscriptions.active.exists?
 
       stripe_price = StripePrice.find_by(price_uid: price)
