@@ -2,7 +2,7 @@ class StripeProductSerializer
   include JSONAPI::Serializer
 
   set_id :product_uid
-  attributes :name, :description
+  attributes :name, :description, :metadata
 
   attribute :stripe_prices, if: Proc.new { |record| record.price_on } do |object|
     object.active_prices.map do |price|
