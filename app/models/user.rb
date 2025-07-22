@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_many :stripe_customers
+  has_many :stripe_invoices, through: :stripe_customers
   has_many :stripe_checkout_sessions
   has_many :api_calls
   has_many :stripe_subscriptions do

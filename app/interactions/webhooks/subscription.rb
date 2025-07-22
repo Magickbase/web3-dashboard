@@ -47,6 +47,8 @@ module Webhooks
       raise "Subscription #{obj.id} not found" unless subscription
 
       item = obj.items.data[0]
+      old_price_uid = subscription.price_uid
+      new_price_uid = item.price.id
 
       attributes = {
         current_period_start: item.current_period_start,
@@ -59,6 +61,12 @@ module Webhooks
       }
 
       subscription.update!(attributes)
+
+      # 如果 price 发生变化并且订阅为 active，则重置用户 credits
+      if obj.status == "active" && old_price_uid != new_price_uid
+        price = StripePrice.find_by(price_uid: new_price_uid)
+        CreditsService.new(subscription.user).reset_credits!(price.credit_quota) if price
+      end
     end
 
     def handle_subscription_deleted(obj)
