@@ -87,4 +87,10 @@ class ApiError < StandardError
       super(code: 1012, status: 422, message: "stripe price not found or credit_quota is invalid")
     end
   end
+
+  class StripeDuplicateSubscriptionPriceError < ApiError
+    def initialize
+      super(code: 1013, status: 400, message: "new subscription price cannot be the same as the current one")
+    end
+  end
 end

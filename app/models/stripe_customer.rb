@@ -1,5 +1,6 @@
 class StripeCustomer < ApplicationRecord
   belongs_to :user
+  has_many :stripe_invoices, foreign_key: :customer_uid, primary_key: :customer_uid
 end
 
 # == Schema Information
